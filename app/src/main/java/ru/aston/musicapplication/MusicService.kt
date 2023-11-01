@@ -36,7 +36,7 @@ class MusicService : Service() {
             baseContext,
             0,
             prevIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_IMMUTABLE
         )
 
         val playIntent =
@@ -45,7 +45,7 @@ class MusicService : Service() {
             baseContext,
             0,
             playIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_IMMUTABLE
         )
 
         val nextIntent =
@@ -54,7 +54,7 @@ class MusicService : Service() {
             baseContext,
             0,
             nextIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_IMMUTABLE
         )
 
         val exitIntent =
@@ -63,7 +63,7 @@ class MusicService : Service() {
             baseContext,
             0,
             exitIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
+            PendingIntent.FLAG_IMMUTABLE
         )
 
 

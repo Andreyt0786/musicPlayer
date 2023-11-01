@@ -79,6 +79,7 @@ dependencies {
     def hilt_version ="2.46.1"
     def paging_version = "3.1.1"
     def media_version = "1.6.0"
+    def work_version = "2.7.1"
 
 
     implementation fileTree(dir: "libs", include: ["*.jar"])
@@ -117,6 +118,8 @@ dependencies {
     implementation "androidx.room:room-paging:$room_version"
     implementation "androidx.fragment:fragment-ktx:1.6.1"
     implementation "androidx.media:media:$media_version"
+    //noinspection GradleDependency
+    implementation "androidx.work:work-runtime-ktx:$work_version"
 
 
 
