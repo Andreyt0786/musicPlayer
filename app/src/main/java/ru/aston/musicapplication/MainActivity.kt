@@ -8,6 +8,7 @@ import android.content.ServiceConnection
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.IBinder
+import android.util.Log
 import android.view.View
 import android.widget.ImageButton
 import android.widget.SeekBar
@@ -20,6 +21,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, SeekBar.OnSeekBa
         var musicService: MusicService? = null
         var postionOfMusic = 0
         val listOfMusic = listOf(R.raw.music1, R.raw.music2, R.raw.music3)
+
+
         @SuppressLint("StaticFieldLeak")
         lateinit var buttonPlay: ImageButton
         lateinit var appContext: Context
@@ -29,6 +32,18 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, SeekBar.OnSeekBa
         super.onCreate(savedInstanceState)
         appContext = applicationContext
         setContentView(R.layout.activity_main)
+
+       /* if (savedInstanceState != null) {
+            musicPosition = savedInstanceState.getInt("position")
+            val isPlaying = savedInstanceState.getBoolean("playing")
+            Log.d("Main", "get position")
+
+            if (isPlaying) {
+                musicService!!.mediaPlayer!!.stop()
+                audioPlay(postionOfMusic)
+            }
+        }*/
+
         createMediaPlayer(postionOfMusic)
         val intent = Intent(this, MusicService::class.java)
         bindService(intent, this, BIND_AUTO_CREATE)
@@ -43,7 +58,6 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, SeekBar.OnSeekBa
         buttonPrevious.setOnClickListener(this)
         val buttonNext: ImageButton = findViewById(R.id.button_next)
         buttonNext.setOnClickListener(this)
-
     }
 
     private fun createMediaPlayer(position: Int) {
@@ -61,14 +75,16 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, SeekBar.OnSeekBa
     private fun audioPlay(position: Int) {
         val buttonPlay: ImageButton = findViewById(R.id.button_play_pause)
         if (!musicService!!.mediaPlayer!!.isPlaying) {
-            musicService!!.mediaPlayer = MediaPlayer.create(this, listOfMusic[position])
+            MediaPlayer.create(this, listOfMusic[position])
             musicService!!.mediaPlayer!!.start()
             buttonPlay.setImageResource(R.drawable.baseline_pause_24)
             musicService!!.showNotification(R.drawable.baseline_pause_mini)
+
         } else {
             musicService!!.mediaPlayer!!.pause()
             buttonPlay.setImageResource(R.drawable.baseline_play_arrow_24)
             musicService!!.showNotification(R.drawable.baseline_play_arrow_mini)
+
         }
     }
 
@@ -79,6 +95,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, SeekBar.OnSeekBa
         } else {
             postionOfMusic = 0
         }
+
         audioPlay(postionOfMusic)
     }
 
@@ -89,6 +106,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, SeekBar.OnSeekBa
         } else {
             postionOfMusic = listOfMusic.size - 1
         }
+
         audioPlay(postionOfMusic)
     }
 
@@ -131,5 +149,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener, SeekBar.OnSeekBa
 
     override fun onServiceDisconnected(name: ComponentName?) {
         musicService = null
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("position", musicService!!.mediaPlayer!!.currentPosition)
+        outState.putBoolean("playing", musicService!!.mediaPlayer!!.isPlaying)
+
+        Log.d("Main", "position")
     }
 }
