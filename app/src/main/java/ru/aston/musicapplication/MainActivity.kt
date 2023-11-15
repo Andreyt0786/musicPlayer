@@ -146,6 +146,8 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
 */
 
 import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
 import android.content.ServiceConnection
 import android.os.Bundle
 import android.os.IBinder
@@ -156,24 +158,38 @@ import androidx.lifecycle.flowWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
+import ru.aston.musicapplication.MainViewModel.Companion.musicService
 
 class MainActivity : AppCompatActivity(), ServiceConnection {
 
     private val viewModel: MainViewModel by viewModels()
 
     private var isPlaying: Boolean = false
+    companion object {
+        lateinit var appContext: Context
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        appContext = applicationContext
         setContentView(R.layout.activity_main)
+        val intent = Intent(this, MusicService::class.java)
+        bindService(intent, this, BIND_AUTO_CREATE)
+        startService(intent)
+
+        if(isPlaying){
+            findViewById<ImageButton>(R.id.button_play_pause).setImageResource(R.drawable.baseline_pause_24)
+        } else{
+            findViewById<ImageButton>(R.id.button_play_pause).setImageResource(R.drawable.baseline_play_arrow_24)
+        }
 
         findViewById<ImageButton>(R.id.button_play_pause).setOnClickListener {
             if (isPlaying) {
                 viewModel.pause()
-                findViewById<ImageButton>(R.id.button_play_pause).setImageResource(R.drawable.baseline_pause_24)
+                findViewById<ImageButton>(R.id.button_play_pause).setImageResource(R.drawable.baseline_play_arrow_24)
             } else {
                 viewModel.play()
-                findViewById<ImageButton>(R.id.button_play_pause).setImageResource(R.drawable.baseline_play_arrow_24)
+                findViewById<ImageButton>(R.id.button_play_pause).setImageResource(R.drawable.baseline_pause_24)
             }
         }
 
@@ -193,13 +209,13 @@ class MainActivity : AppCompatActivity(), ServiceConnection {
     }
     override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
         val binder = service as MusicService.MyBinder
-        viewModel.musicService = binder.currentService()
+      musicService = binder.currentService()
         //viewModel.createMediaPlayer()
-        viewModel.musicService!!.showNotification(R.drawable.baseline_play_arrow_mini)
+       musicService!!.showNotification(R.drawable.baseline_play_arrow_mini)
     }
 
     override fun onServiceDisconnected(name: ComponentName?) {
-        viewModel.musicService = null
+        musicService = null
     }
 
 }

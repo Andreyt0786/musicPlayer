@@ -3,15 +3,20 @@ package ru.aston.musicapplication
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.media.MediaPlayer
+import ru.aston.musicapplication.MainViewModel.Companion.currentPosition
+import ru.aston.musicapplication.MainViewModel.Companion.currentTrack
+import ru.aston.musicapplication.MainViewModel.Companion.listOfMusic
+import ru.aston.musicapplication.MainViewModel.Companion.musicService
 import kotlin.system.exitProcess
 
 class NotificationReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         when (intent?.action) {
 
-            ApplicationClass.PREVIOUS -> previousSong()
+            // ApplicationClass.PREVIOUS -> previousSong()
 
-            ApplicationClass.NEXT -> nextSong()
+            //  ApplicationClass.NEXT -> nextSong()
 
             ApplicationClass.PLAY -> playMusic()
 
@@ -23,14 +28,16 @@ class NotificationReceiver : BroadcastReceiver() {
         }
     }
 
+
     private fun playMusic() {
 
-        /*if (!musicService!!.mediaPlayer!!.isPlaying) {
-            musicService!!.mediaPlayer = MediaPlayer.create(appContext, listOfMusic[currentTrack])
+        if (!musicService!!.mediaPlayer!!.isPlaying) {
+            musicService!!.mediaPlayer =
+                MediaPlayer.create(MainActivity.appContext, listOfMusic[currentTrack])
             musicService!!.mediaPlayer!!.start()
             musicService!!.showNotification(R.drawable.baseline_pause_mini)
             musicService!!.mediaPlayer!!.seekTo(currentPosition)
-            buttonPlay.setImageResource(R.drawable.baseline_pause_24)
+            //buttonPlay.setImageResource(R.drawable.baseline_pause_24)
             /*musicService!!.mediaPlayer =
                 MediaPlayer.create(MainActivity.appContext, MainActivity.listOfMusic[position])
             MainActivity.musicService!!.mediaPlayer!!.selectTrack(postionOfMusic)
@@ -44,10 +51,10 @@ class NotificationReceiver : BroadcastReceiver() {
             musicService!!.mediaPlayer!!.pause()
             musicService!!.showNotification(R.drawable.baseline_play_arrow_mini)
             currentPosition = musicService!!.mediaPlayer!!.currentPosition
-            buttonPlay.setImageResource(R.drawable.baseline_play_arrow_24)*/
-    }
+            //buttonPlay.setImageResource(R.drawable.baseline_play_arrow_24)*/
+        }
 
-
+        /*
     private fun nextSong() {
         /*  if (musicService!!.mediaPlayer!!.isPlaying) musicService!!.mediaPlayer!!.stop()
         if (currentTrack < listOfMusic.size - 1) {
@@ -84,5 +91,6 @@ class NotificationReceiver : BroadcastReceiver() {
          }
          playMusic(postionOfMusic)*/
     }
-
+*/
+    }
 }

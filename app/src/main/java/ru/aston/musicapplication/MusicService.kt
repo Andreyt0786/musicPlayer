@@ -12,7 +12,7 @@ import androidx.core.app.NotificationCompat
 class MusicService : Service() {
 
     private var myBinder = MyBinder()
-    var mediaPlayer: MediaPlayer? = null
+    var mediaPlayer: MediaPlayer? = MediaPlayer()
     private lateinit var mediaSession: MediaSessionCompat
 
     override fun onBind(intent: Intent?): IBinder {
