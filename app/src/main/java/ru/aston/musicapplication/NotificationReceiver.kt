@@ -38,27 +38,19 @@ class NotificationReceiver : BroadcastReceiver() {
             musicService!!.showNotification(R.drawable.baseline_pause_mini)
             if (currentPosition != 0) {
                 musicService?.mediaPlayer?.seekTo(currentPosition)
-                MainActivity.isPlaying =true
+                MainActivity.isPlaying = true
             }
         } else {
             musicService!!.mediaPlayer!!.pause()
             currentPosition = musicService!!.mediaPlayer!!.currentPosition
             MainActivity.buttonPlay.setImageResource(R.drawable.baseline_play_arrow_24)
             musicService!!.showNotification(R.drawable.baseline_play_arrow_mini)
-            MainActivity.isPlaying =false
+            MainActivity.isPlaying = false
         }
     }
 
 
     private fun nextSong() {
-        //обавь как там
-        /*musicService?.mediaPlayer?.stop()
-        currentTrack = if (currentTrack == listOfMusic.size - 1) {
-            0
-        } else {
-            currentTrack + 1
-        }
-        currentPosition = 0*/
         musicService?.mediaPlayer?.stop()
         currentTrack = if (currentTrack < listOfMusic.size - 1) {
             currentTrack + 1
@@ -71,13 +63,6 @@ class NotificationReceiver : BroadcastReceiver() {
 
 
     fun previousSong() {
-        /*musicService?.mediaPlayer?.stop()
-        currentTrack = if (currentTrack == 0) {
-            listOfMusic.last()
-        } else {
-            currentTrack - 1
-        }
-        currentPosition = 0*/
         musicService?.mediaPlayer?.stop()
         currentTrack = if (currentTrack > 0) {
             currentTrack - 1
