@@ -30,7 +30,6 @@ class NotificationReceiver : BroadcastReceiver() {
 
 
     private fun playMusic() {
-
         if (!musicService!!.mediaPlayer!!.isPlaying) {
             musicService!!.mediaPlayer =
                 MediaPlayer.create(MainActivity.appContext, listOfMusic[currentTrack])
@@ -39,14 +38,14 @@ class NotificationReceiver : BroadcastReceiver() {
             musicService!!.showNotification(R.drawable.baseline_pause_mini)
             if (currentPosition != 0) {
                 musicService?.mediaPlayer?.seekTo(currentPosition)
+                MainActivity.isPlaying =true
             }
-
-
         } else {
             musicService!!.mediaPlayer!!.pause()
             currentPosition = musicService!!.mediaPlayer!!.currentPosition
             MainActivity.buttonPlay.setImageResource(R.drawable.baseline_play_arrow_24)
             musicService!!.showNotification(R.drawable.baseline_play_arrow_mini)
+            MainActivity.isPlaying =false
         }
     }
 
@@ -72,7 +71,6 @@ class NotificationReceiver : BroadcastReceiver() {
         }
         currentPosition = 0
         playMusic()
-
     }
 }
 
