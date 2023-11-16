@@ -226,7 +226,6 @@ class MainActivity : AppCompatActivity(), ServiceConnection {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-
         outState.putBoolean("KEY", isPlaying)
     }
 

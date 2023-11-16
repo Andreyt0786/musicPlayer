@@ -51,11 +51,19 @@ class NotificationReceiver : BroadcastReceiver() {
 
 
     private fun nextSong() {
-        musicService?.mediaPlayer?.stop()
+        //обавь как там
+        /*musicService?.mediaPlayer?.stop()
         currentTrack = if (currentTrack == listOfMusic.size - 1) {
             0
         } else {
             currentTrack + 1
+        }
+        currentPosition = 0*/
+        musicService?.mediaPlayer?.stop()
+        currentTrack = if (currentTrack < listOfMusic.size - 1) {
+            currentTrack + 1
+        } else {
+            0
         }
         currentPosition = 0
         playMusic()
@@ -63,11 +71,18 @@ class NotificationReceiver : BroadcastReceiver() {
 
 
     fun previousSong() {
-        musicService?.mediaPlayer?.stop()
+        /*musicService?.mediaPlayer?.stop()
         currentTrack = if (currentTrack == 0) {
             listOfMusic.last()
         } else {
             currentTrack - 1
+        }
+        currentPosition = 0*/
+        musicService?.mediaPlayer?.stop()
+        currentTrack = if (currentTrack > 0) {
+            currentTrack - 1
+        } else {
+            listOfMusic.size - 1
         }
         currentPosition = 0
         playMusic()
